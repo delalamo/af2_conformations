@@ -123,7 +123,7 @@ def run_one_job(
     )
 
   # Generate the model
-  result = runner.predict( features, random_seed=random_seed )
+  result = runner.predict( features )
   pred = protein.from_prediction( features, result )
 
   # Write to file

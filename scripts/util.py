@@ -110,7 +110,7 @@ def setup_features(
 
   """
 
-  msa = pipeline.parsers.parse_a3m( a3m_lines )
+  msa, delmat = pipeline.parsers.parse_a3m( a3m_lines )
 
   # Assemble the dictionary of input features
   return {
@@ -120,6 +120,6 @@ def setup_features(
             num_res = len( seq )
           ), **pipeline.make_msa_features(
             msas = [ msa ],
-            #deletion_matrices = [ delmat ]
+            deletion_matrices = [ delmat ]
           ), **tfeatures_in
         }
