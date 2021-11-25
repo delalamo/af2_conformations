@@ -1,0 +1,31 @@
+parm   models/ccr5_1632_rec1_f75d6_0.pdb 
+trajin models/ccr5_1632_rec1_f75d6_?.pdb
+trajin models/ccr5_1632_rec1_f75d6_??.pdb
+trajin models/ccr5_3264_rec1_f75d6_?.pdb
+trajin models/ccr5_3264_rec1_f75d6_??.pdb
+trajin models/ccr5_64128_rec1_f75d6_?.pdb
+trajin models/ccr5_64128_rec1_f75d6_??.pdb
+trajin models/ccr5_128256_rec1_f75d6_?.pdb
+trajin models/ccr5_128256_rec1_f75d6_??.pdb
+trajin models/ccr5_256512_rec1_f75d6_?.pdb
+trajin models/ccr5_256512_rec1_f75d6_??.pdb
+trajin models/ccr5_5121024_rec1_f75d6_?.pdb
+trajin models/ccr5_5121024_rec1_f75d6_??.pdb
+trajin models/ccr5_5125120_rec1_f75d6_?.pdb
+trajin models/ccr5_5125120_rec1_f75d6_??.pdb
+autoimage
+rms :14-38,49-70,80-110,125-147,170-202,216-239,252-291@CA
+strip !:14-38,49-70,80-110,125-147,170-202,216-239,252-291@CA
+average crdset trjavg 
+average average.pdb pdb
+createcrd CRD1
+run
+crdaction CRD1 rms ref trjavg
+crdaction CRD1 matrix covar name matcov @CA
+runanalysis diagmatrix matcov out evecs.dat  vecs 198 name myEvecs 
+runanalysis modes eigenval name myEvecs out %eigenvec.dat
+crdaction CRD1 projection PCS modes myEvecs out project.dat beg 1 end 3 @CA
+hist PCS:1 bins 1000  out hist.agr norm name PC-1
+hist PCS:2 bins 1000  out hist.agr norm name PC-2
+hist PCS:3 bins 1000  out hist.agr norm name PC-3
+run

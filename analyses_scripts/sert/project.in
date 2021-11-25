@@ -1,0 +1,11 @@
+parm 5i6x_ready.pdb
+parm 6dzz_ready.pdb
+parm average.pdb 
+trajin 5i6x_ready.pdb parmindex 0
+trajin 6dzz_ready.pdb parmindex 1
+reference average.pdb [ref] parmindex 2 
+readdata evecs.dat name myEvecs
+strip !@CA
+rms reference ref 
+projection modes myEvecs out project_native.dat beg 1 end 3 @CA
+run

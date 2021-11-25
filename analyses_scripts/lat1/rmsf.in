@@ -1,0 +1,12 @@
+parm models/64_128seq_model1_0.pdb
+trajin models/64_128seq_model?_?.pdb
+autoimage
+rms :3-171,191-217,222-250,275-307,325-372,385-425@CA
+#strip !:1-111,121-188,198-223,233-266@CA
+average crdset trjavg 
+average average_rmsf.pdb pdb
+#createcrd CRD1
+run
+rms ref trjavg :3-171,191-217,222-250,275-307,325-372,385-425@CA
+atomicfluct out fluct.dat :3-171,191-217,222-250,275-307,325-372,385-425@CA byres
+run
