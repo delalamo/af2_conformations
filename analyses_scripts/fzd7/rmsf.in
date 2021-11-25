@@ -1,0 +1,13 @@
+parm models/fzd7_64128_*_0.pdb
+trajin models/fzd7_64128_*_?.pdb
+trajin models/fzd7_64128_*_??.pdb
+autoimage
+rms :1-62,87-152,171-201,216-245,280-315@CA
+#strip !:1-111,121-188,198-223,233-266@CA
+average crdset trjavg 
+average average_rmsf.pdb pdb
+#createcrd CRD1
+run
+rms ref trjavg :1-62,87-152,171-201,216-245,280-315@CA
+atomicfluct out fluct.dat :1-62,87-152,171-201,216-245,280-315@CA byres
+run

@@ -1,0 +1,11 @@
+parm 6xpf_ready.pdb
+parm 6xpd_ready.pdb
+parm averageMD.pdb 
+trajin 6xpf_ready.pdb parmindex 0
+trajin 6xpd_ready.pdb parmindex 1
+reference averageMD.pdb [ref] parmindex 2 
+readdata evecsMD.dat name myEvecs
+strip !:1-58,73-128,134-194@CA
+rms reference ref 
+projection modes myEvecs out project_nativeMD.dat beg 1 end 3 @CA
+run

@@ -1,0 +1,35 @@
+parm models/asct2_1632_rec1_9e487_0.pdb 
+trajin models/asct2_1632_rec1_9e487_?.pdb
+trajin models/asct2_1632_rec1_9e487_??.pdb
+trajin models/asct2_3264_rec1_9e487_?.pdb
+trajin models/asct2_3264_rec1_9e487_??.pdb
+trajin models/asct2_64128_rec1_9e487_?.pdb
+trajin models/asct2_64128_rec1_9e487_??.pdb
+trajin models/asct2_128256_rec1_9e487_?.pdb
+trajin models/asct2_128256_rec1_9e487_??.pdb
+trajin models/asct2_256512_rec1_9e487_?.pdb
+trajin models/asct2_256512_rec1_9e487_??.pdb
+trajin models/asct2_5121024_rec1_9e487_?.pdb
+trajin models/asct2_5121024_rec1_9e487_??.pdb
+trajin models/asct2_5125120_rec1_9e487_?.pdb
+trajin models/asct2_5125120_rec1_9e487_??.pdb
+autoimage
+rms :47-152,184-488@CA
+strip !:47-152,184-488@CA
+average crdset trjavg 
+average average.pdb pdb
+createcrd CRD1
+run
+crdaction CRD1 rms ref trjavg
+crdaction CRD1 matrix covar name matcov @CA
+runanalysis diagmatrix matcov out evecs.dat  vecs 411 name myEvecs nmwiz nmwizvecs 3 nmwizfile helices.nmd nmwizmask :47-152,184-488@CA
+runanalysis modes eigenval name myEvecs out %eigenvec.dat
+crdaction CRD1 projection PCS modes myEvecs out project.dat beg 1 end 3 @CA
+hist PCS:1 bins 1000  out hist.agr norm name PC-1
+hist PCS:2 bins 1000  out hist.agr norm name PC-2
+hist PCS:3 bins 1000  out hist.agr norm name PC-3
+hist PCS:1 PCS:2 free 300 out hist_free_12.gnu bins 1000 name PC1-2gnu
+hist PCS:1 PCS:2 free 300 out hist_free_12.dat bins 1000 name PC1-2
+hist PCS:1 PCS:3 free 300 out hist_free_13.gnu bins 1000 name PC1-3gnu
+hist PCS:1 PCS:3 free 300 out hist_free_13.dat bins 1000 name PC1-3
+run

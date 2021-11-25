@@ -1,0 +1,31 @@
+parm   mct1_templates/aligned_16_32_0_templated.pdb 
+trajin mct1_templates/aligned_16_32_?_templated.pdb
+trajin mct1_templates/aligned_16_32_??_templated.pdb
+trajin mct1_templates/aligned_32_64_?_templated.pdb
+trajin mct1_templates/aligned_32_64_??_templated.pdb
+trajin mct1_templates/aligned_64_128_?_templated.pdb
+trajin mct1_templates/aligned_64_128_??_templated.pdb
+trajin mct1_templates/aligned_128_256_?_templated.pdb
+trajin mct1_templates/aligned_128_256_??_templated.pdb
+trajin mct1_templates/aligned_256_512_?_templated.pdb
+trajin mct1_templates/aligned_256_512_??_templated.pdb
+trajin mct1_templates/aligned_512_1024_?_templated.pdb
+trajin mct1_templates/aligned_512_1024_??_templated.pdb
+trajin mct1_templates/aligned_512_5120_?_templated.pdb
+trajin mct1_templates/aligned_512_5120_??_templated.pdb
+autoimage
+rms :16-195,260-449@CA
+strip !:16-195,260-449@CA
+average crdset trjavg 
+average average.pdb pdb
+createcrd CRD1
+run
+crdaction CRD1 rms ref trjavg
+crdaction CRD1 matrix covar name matcov @CA
+runanalysis diagmatrix matcov out evecs.dat  vecs 368 name myEvecs 
+runanalysis modes eigenval name myEvecs out %eigenvec.dat
+crdaction CRD1 projection PCS modes myEvecs out project.dat beg 1 end 3 @CA
+hist PCS:1 bins 1000  out hist.agr norm name PC-1
+hist PCS:2 bins 1000  out hist.agr norm name PC-2
+hist PCS:3 bins 1000  out hist.agr norm name PC-3
+run

@@ -1,0 +1,25 @@
+parm models/calcrl_64128_rec1_69c03_0.pdb
+#trajin models/calcrl_1632_rec1_69c03_?.pdb
+#trajin models/calcrl_1632_rec1_69c03_??.pdb
+#trajin models/calcrl_3264_rec1_69c03_?.pdb
+#trajin models/calcrl_3264_rec1_69c03_??.pdb
+trajin models/calcrl_64128_rec1_69c03_?.pdb
+trajin models/calcrl_64128_rec1_69c03_??.pdb
+#trajin models/calcrl_128256_rec1_69c03_?.pdb
+#trajin models/calcrl_128256_rec1_69c03_??.pdb
+#trajin models/calcrl_256512_rec1_69c03_?.pdb
+#trajin models/calcrl_256512_rec1_69c03_??.pdb
+#trajin models/calcrl_5121024_rec1_69c03_?.pdb
+#trajin models/calcrl_5121024_rec1_69c03_??.pdb
+#trajin models/calcrl_5125120_rec1_69c03_?.pdb
+#trajin models/calcrl_5125120_rec1_69c03_??.pdb
+autoimage
+rms :1-111,121-188,198-223,233-266@CA
+#strip !:1-111,121-188,198-223,233-266@CA
+average crdset trjavg 
+average average_rmsf.pdb pdb
+#createcrd CRD1
+run
+rms ref trjavg :1-111,121-188,198-223,233-266@CA
+atomicfluct out fluct.dat :1-111,121-188,198-223,233-266@CA byres
+run
