@@ -59,4 +59,10 @@ predict.predict_structure_from_templates( sequence, "out.pdb",
         max_recycles = 1, n_struct_module_repeats = 8 )
 ```
 
+### Known issues
 
+Here is a shortlist of known problems that we are currently working on:
+* The MMSeqs2 server queries the PDB70, rather than the full PDB. This can cause some structures to be missed if their sequences are nearly identical to those of other PDB files.
+* Multimer prediction is not currently supported.
+
+If you find any other issues please let us know in the "issues" tab above.
