@@ -74,7 +74,7 @@ def mk_template(
       databases=[ f"{ path }/pdb70" ]
   ).query( a3m_lines )
 
-  return templates.TemplateHitFeaturizer(
+  return templates.HhsearchHitFeaturizer(
       mmcif_dir=path,
       max_template_date="2100-01-01",
       max_hits=20,
@@ -83,8 +83,6 @@ def mk_template(
       obsolete_pdbs_path=None
     ).get_templates(
       query_sequence=seq,
-      query_pdb_code=None,
-      query_release_date=None,
       hits=pipeline.parsers.parse_hhr( result )
     )
 
@@ -110,16 +108,13 @@ def setup_features(
 
   """
 
-  msa, delmat = pipeline.parsers.parse_a3m( a3m_lines )
-
-  # Assemble the dictionary of input features
+  msa = pipeline.parsers.parse_a3m( a3m_lines )
   return {
       **pipeline.make_sequence_features(
             sequence = seq,
             description = "none",
             num_res = len( seq )
           ), **pipeline.make_msa_features(
-            msas = [ msa ],
-            deletion_matrices = [ delmat ]
+            msas = [ msa ]
           ), **tfeatures_in
         }

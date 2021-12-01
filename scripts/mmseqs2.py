@@ -5,7 +5,6 @@ import re
 import requests
 import tarfile
 import time
-import unittest
 
 from absl import logging
 from typing import List, NoReturn, Tuple

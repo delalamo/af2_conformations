@@ -21,6 +21,7 @@ def set_config(
     model_id: int,
     n_struct_module_repeats: int,
     n_features_in: int,
+    monomer: bool = True,
     model_params: int = 0
   ): # -> alphafold.model.RunModel:
   
@@ -35,6 +36,7 @@ def set_config(
   model_id : Which AF2 model to use
   n_struct_module_repeats : Number of passes through structure module
   n_features_in : Unclear
+  monomer : Predicting as a monomer (set to False if using AlphaFold-multimer)
   model_params : Which AF2 model config to use
 
   Returns
@@ -44,20 +46,16 @@ def set_config(
   """  
 
   if model_id not in range( 1, 6 ):
-    raise ValueError( "model_id must be between 1 and 5!" )
+    logging.warning( "model_id must be between 1 and 5!" )
+    model_id = random.randint( 1, 5 )
 
   # Match model_params to model_id
   # Sometimes we don't want to do this, for example,
   #   to reproduce output from ColabFold (which only uses models 1 and 3)
 
-  logging.debug( "Prediction parameters:" )
-  logging.debug( f"\tModel ID: { model_id }" )
-  logging.debug( f"\tUsing templates: { use_templates }" )
-  logging.debug( f"\tMaximum number of MSA clusters: { max_msa_clusters }" )
-  logging.debug( f"\tMaximum number of extra MSA clusters: { max_extra_msa }" )
-  logging.debug( f"\tMaximum number of recycling iterations: { max_recycles }" )
-
   name = f"model_{ model_params }_ptm"
+  if not monomer:
+    name = f"model_{ model_params }_multimer"
 
   cfg = config.model_config( name )
 
@@ -66,16 +64,19 @@ def set_config(
   #### MSAs
 
   cfg.data.eval.num_ensemble = 1
-  cfg.data.eval.max_msa_clusters = min(
-      n_features_in, max_msa_clusters
-    )
-  cfg.data.common.max_extra_msa = max( 1, min(
-      n_features_in - max_msa_clusters, max_extra_msa )
-    )
+  if max_msa_clusters > 0:
+    cfg.data.eval.max_msa_clusters = min(
+        n_features_in, max_msa_clusters
+      )
+  if max_extra_msa > 0:
+    cfg.data.common.max_extra_msa = max( 1, min(
+        n_features_in - max_msa_clusters, max_extra_msa )
+      )
 
   #### Recycle and number of iterations
 
-  cfg.data.common.num_recycle = max_recycles
+  if monomer:
+    cfg.data.common.num_recycle = max_recycles
   cfg.model.num_recycle = max_recycles
   cfg.model.heads.structure_module.num_layer = n_struct_module_repeats
 
@@ -92,6 +93,18 @@ def set_config(
   p = data.get_model_haiku_params(
       model_name=name, data_dir="."
     )
+
+  logging.debug( "Prediction parameters:" )
+  logging.debug( "\tModel ID: {}".format( model_id ) )
+  logging.debug( "\tUsing templates: {}".format( t ) )
+  logging.debug( "\tMaximum number of MSA clusters: {}".format(
+    cfg.data.eval.max_msa_clusters ) )
+  logging.debug( "\tMaximum number of extra MSA clusters: {}".format(
+    cfg.data.common.max_extra_msa ) )
+  logging.debug( "\tMaximum number of recycling iterations: {}".format(
+    cfg.model.num_recycle ) )
+  logging.debug( "\tMaximum number of structure module repeats: {}".format(
+    cfg.model.heads.structure_module.num_layer ) )
 
   return model.RunModel( cfg, p )
 
@@ -123,7 +136,7 @@ def run_one_job(
     )
 
   # Generate the model
-  result = runner.predict( features )
+  result = runner.predict( features, random_seed )
   pred = protein.from_prediction( features, result )
 
   # Write to file
@@ -138,13 +151,12 @@ def predict_structure_from_templates(
     seq: str,
     outname: str,
     a3m_lines: str,
-    templates: List[ str ],
     template_path: str,
     model_id: int = -1,
     model_params: int = -1,
     random_seed: int = -1,
-    max_msa_clusters: int = 512,
-    max_extra_msa: int = 1024,
+    max_msa_clusters: int = -1,
+    max_extra_msa: int = -1,
     max_recycles: int = 3,
     n_struct_module_repeats: int = 8
   ) -> NoReturn:
@@ -156,7 +168,6 @@ def predict_structure_from_templates(
   seq : Sequence
   outname : Name of output PDB
   a3m_lines : String of entire alignment
-  templates : Choice of templates to use (format: WXYZ_A)
   template_paths : Where to locate templates
   model_id : Which AF2 model to run (must be 1 or 2 for templates)
   model_params : Which parameters to provide to AF2 model
@@ -221,8 +232,8 @@ def predict_structure_no_templates(
     model_id: int = -1,
     model_params: int = -1,
     random_seed: int = -1,
-    max_msa_clusters: int = 512,
-    max_extra_msa: int = 1024,
+    max_msa_clusters: int = -1,
+    max_extra_msa: int = -1,
     max_recycles: int = 3,
     n_struct_module_repeats: int = 8
   ) -> NoReturn:
