@@ -54,7 +54,7 @@ To run a prediction with templates:
 
 ```
 predict.predict_structure_from_templates( sequence, "out.pdb",
-        a3m_lines, templates = pdbs, template_path = template_path,
+        a3m_lines, template_path = template_path,
         model_id = 1, max_msa_clusters = 16, max_extra_msa = 32,
         max_recycles = 1, n_struct_module_repeats = 8 )
 ```
