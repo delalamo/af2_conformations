@@ -17,8 +17,6 @@ Before importing the code contained in the `scripts/` folder, the user needs to 
 The scripts can be imported and used out-of-the-box to fetch multiple sequence alignments and/or templates of interest:
 
 ```
-from af2_conformations.scripts import predict
-from af2_conformations.scripts import util
 from af2_conformations.scripts import mmseqs2
 
 # Jobname for reference
@@ -45,6 +43,8 @@ a3m_lines, template_path = mmseqs2_runner.run_job( templates = pdbs )
 The following code then runs a prediction without templates. Note that the `max_msa_clusters` and `max_extra_msa` options can be provided to reduce the size of the multiple sequence alignment. If these are not provided, the networks default values will be used. Additional options allow the number of recycles, as well as the number of loops through the recurrent Structure Module, to be specified.
 
 ```
+from af2_conformations.scripts import predict
+
 predict.predict_structure_no_templates( sequence, "out.pdb",
          a3m_lines, model_id = 1, max_msa_clusters = 16,
          max_extra_msa = 32, max_recycles = 1, n_struct_module_repeats = 8 )
@@ -64,5 +64,6 @@ predict.predict_structure_from_templates( sequence, "out.pdb",
 Here is a shortlist of known problems that we are currently working on:
 * The MMSeqs2 server queries the PDB70, rather than the full PDB. This can cause some structures to be missed if their sequences are nearly identical to those of other PDB files.
 * Multimer prediction is not currently supported.
+* Custom MSAs are not currently supported.
 
 If you find any other issues please let us know in the "issues" tab above.
