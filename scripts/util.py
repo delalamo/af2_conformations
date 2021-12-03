@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-from typing import List, NoReturn
+from typing import Dict, List, NoReturn
 
 from alphafold.data import pipeline
 from alphafold.data import templates
