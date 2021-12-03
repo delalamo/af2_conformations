@@ -118,3 +118,44 @@ def setup_features(
             msas = [ msa ]
           ), **tfeatures_in
         }
+
+def mutate_msa(
+    a3m_lines: str,
+    pos_res: Dict[ int, str ],
+  ) -> str:
+  r""" Mutates every position in an MSA to a residue of interest
+  
+  Example usage: mutate_msa( a3m_lines, { 15: "A", 155: "A" } )
+  This will mutate residues 15 and 155 to alanine throughout the MSA
+
+  Parameters
+  ----------
+  a3m_lines : Sequence alignment
+  pos : Position to change
+  target_res : Residue to mutate to
+
+  Returns
+  ----------
+  Sequence alignment (as string)
+
+  """
+
+  for target_res in pos_res.values():
+    assert len( target_res ) == 1
+
+
+  output = []
+
+  # Iterate over alignment lines
+  for line in a3m_lines.split( "\n" ):
+    if line.startswith( ">" ):
+      output.append( line )
+    elif len( line ) > 1:
+      line = list( line )
+      for pos, res in pos_res.items():
+        if line[ pos ] in "ACDEFGHIKLMNPQRSTVWY":
+          line[ pos ] = res
+      output.append( "".join( line ) ) 
+    else:
+      output.append( line )
+  return "\n".join( output )
