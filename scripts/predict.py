@@ -47,7 +47,10 @@ def set_config(
 
   if model_id not in range( 1, 6 ):
     logging.warning( "model_id must be between 1 and 5!" )
-    model_id = random.randint( 1, 5 )
+    if use_templates:
+        model_id = random.randint( 1, 2 )
+    else:
+        model_id = random.randint( 1, 5 )
 
   # Match model_params to model_id
   # Sometimes we don't want to do this, for example,
