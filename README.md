@@ -16,7 +16,7 @@ Before importing the code contained in the `scripts/` folder, the user needs to 
 
 The scripts can be imported and used out-of-the-box to fetch multiple sequence alignments and/or templates of interest:
 
-```
+```python
 from af2_conformations.scripts import mmseqs2
 
 # Jobname for reference
@@ -42,7 +42,7 @@ a3m_lines, template_path = mmseqs2_runner.run_job( templates = pdbs )
 
 The following code then runs a prediction without templates. Note that the `max_msa_clusters` and `max_extra_msa` options can be provided to reduce the size of the multiple sequence alignment. If these are not provided, the networks default values will be used. Additional options allow the number of recycles, as well as the number of loops through the recurrent Structure Module, to be specified.
 
-```
+```python
 from af2_conformations.scripts import predict
 
 predict.predict_structure_no_templates( sequence, "out.pdb",
@@ -52,7 +52,7 @@ predict.predict_structure_no_templates( sequence, "out.pdb",
 
 To run a prediction with templates:
 
-```
+```python
 predict.predict_structure_from_templates( sequence, "out.pdb",
         a3m_lines, template_path = template_path,
         model_id = 1, max_msa_clusters = 16, max_extra_msa = 32,
@@ -67,3 +67,21 @@ Here is a shortlist of known problems that we are currently working on:
 * Custom MSAs are not currently supported.
 
 If you find any other issues please let us know in the "issues" tab above.
+
+### Citation
+
+If the code in this repository has helped your scientific project, please consider citing our preprint:
+
+```bibtex
+@article {delAlamo2021.11.22.469536,
+	author = {del Alamo, Diego and Sala, Davide and Mchaourab, Hassane S. and Meiler, Jens},
+	title = {Sampling the conformational landscapes of transporters and receptors with AlphaFold2},
+	elocation-id = {2021.11.22.469536},
+	year = {2021},
+	doi = {10.1101/2021.11.22.469536},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2021/11/22/2021.11.22.469536},
+	eprint = {https://www.biorxiv.org/content/early/2021/11/22/2021.11.22.469536.full.pdf},
+	journal = {bioRxiv}
+}
+```
