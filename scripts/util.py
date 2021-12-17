@@ -159,3 +159,5 @@ def mutate_msa(
     else:
       output.append( line )
   return "\n".join( output )
+
+def mutate( x, y ): mutate_msa( x, y ) # Alias for brevity
