@@ -59,6 +59,15 @@ predict.predict_structure_from_templates( sequence, "out.pdb",
         max_recycles = 1, n_struct_module_repeats = 8 )
 ```
 
+There is also functionality to introduce mutations (e.g. alanines) across the entire MSA to remove the evolutionary evidence for specific interactions (see [here](https://www.biorxiv.org/content/10.1101/2021.11.29.470469v1) and [here](https://twitter.com/sokrypton/status/1464748132852547591) on why you would want to do this). This can be achieved as follows:
+
+```python
+# Define the mutations and introduce into the sequence and MSA
+residues = [ 41,42,45,46,56,59,60,63,281,282,285,286,403,407 ]
+muts = { r: "A" for r in residues }
+mutated_msa = util.mutate_msa( a3m_lines, muts )
+```
+
 ### Known issues
 
 Here is a shortlist of known problems that we are currently working on:
