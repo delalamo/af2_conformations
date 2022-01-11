@@ -23,7 +23,7 @@ def set_config(
     n_features_in: int,
     monomer: bool = True,
     model_params: int = 0
-  ) -> alphafold.model.RunModel:
+  ) -> model.RunModel:
   
   r""" Generated Runner object for AlphaFold
   
