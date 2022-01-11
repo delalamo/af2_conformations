@@ -9,7 +9,7 @@ from alphafold.model import data
 from alphafold.model import config
 from alphafold.model import model
 
-from typing import List, NoReturn
+from typing import Any, List, Mapping, NoReturn
 
 from absl import logging
 
@@ -23,7 +23,7 @@ def set_config(
     n_features_in: int,
     monomer: bool = True,
     model_params: int = 0
-  ): # -> alphafold.model.RunModel:
+  ): -> alphafold.model.RunModel:
   
   r""" Generated Runner object for AlphaFold
   
@@ -116,7 +116,7 @@ def run_one_job(
     features_in: dict,
     random_seed: int,
     outname: str
-  ) -> NoReturn:
+  ) -> Mapping[ str, Any ]:
   r""" Runs one AF2 job with input parameters
 
   Parameters
@@ -149,6 +149,8 @@ def run_one_job(
       result[ 'plddt' ],
       features_in[ 'residue_index' ]
     )
+
+  return result
 
 def predict_structure_from_templates(
     seq: str,
@@ -219,7 +221,7 @@ def predict_structure_from_templates(
       model_params=model_params
     )
 
-  run_one_job(
+  result = run_one_job(
       model_runner,
       features_in,
       random_seed,
@@ -288,7 +290,7 @@ def predict_structure_no_templates(
       model_params=model_params
     )
 
-  run_one_job(
+  result = run_one_job(
       model_runner,
       features_in,
       random_seed,
