@@ -230,6 +230,8 @@ def predict_structure_from_templates(
 
   del model_runner
 
+  return result
+
 def predict_structure_no_templates(
     seq: str,
     outname: str,
@@ -298,6 +300,8 @@ def predict_structure_no_templates(
     )
 
   del model_runner
+
+  return result
 
 def to_pdb(
     outname,
