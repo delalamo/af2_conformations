@@ -161,3 +161,32 @@ def mutate_msa(
   return "\n".join( output )
 
 def mutate( x, y ): mutate_msa( x, y ) # Alias for brevity
+
+def plddt_to_bfactor(
+    filename: str,
+    maxval: float = 100.
+  ) -> NoReturn:
+  r""" Converts a pLDDT vals to a B factor
+  This equation is derived from the following publication:
+  "Improved protein structure refinement guided by deep learning based
+  accuracy estimation" by Hiranuma et al 2021
+  https://doi.org/10.1038/s41467-021-21511-x
+
+  Parameters
+  ----------
+  filename : Name of PDB file
+  maxval : Set to 100 if using AF2 (or 1 if RoseTTAFold)
+
+  Returns
+  ----------
+  None
+
+  """
+  pdb = Bio.PDB.PDBParser().get_structure( "TEMP", filename )
+  for atom in pdb.get_atoms():
+    rmsf = 1.5 * np.exp( 4 * ( 0.7 - ( atom.bfactor / maxval ) ) )
+    atom.bfactor = ( 8. / 3. ) * ( np.pi ** 2 ) * ( rmsf ** 2 )
+
+  pdbio = Bio.PDB.PDBIO()
+  pdbio.set_structure( pdb )
+  pdbio.save( filename )
