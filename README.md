@@ -4,7 +4,7 @@ This repository accompanies the manuscript ["Sampling the conformational landsca
 
 The model generation code does not change the underlying AlphaFold v2.0.1 prediction pipeline (multimer prediction is not currently supported - we are working on that!). Therefore, please follow the installation instructions provided by DeepMind and review the AlphaFold2 [license](https://github.com/deepmind/alphafold/blob/main/LICENSE) and [disclaimer](https://github.com/deepmind/alphafold#license-and-disclaimer) before use (additionally, please refer to the [AlphaFold FAQ](https://alphafold.ebi.ac.uk/faq) and [ColabFold FAQ](https://github.com/sokrypton/ColabFold/blob/main/README.md)). The objective of the code contained here is to provide access to otherwise hard-to-reach settings that facilitate the generation of conformationally heterogeneous models of protein structures. Genetic and/or structural databases *do not* need to be downloaded - everything is accessible through the cloud via the [MMseqs2 API](https://github.com/soedinglab/MMseqs2).
 
-<p align="center"><img src="https://github.com/delalamo/af2_conformations/blob/9e247c321ebd82ed3716070094721077c5656d9d/figures/header/fig1_header.png" height="350"/></p>
+<p align="center"><img src="https://github.com/delalamo/af2_conformations/blob/a1642c8ae1dd2e7af2c3efd06bafc569512655d0/figures/header/fig1_header.png" height="350"/></p>
 
 *De novo* prediction of protein structures in multiple alternative conformations can usually be achieved for proteins that are absent from the AlphaFold2 training set, i.e. their structures were not determined prior to 30 April 2018. Predicting multiple conformations of proteins in the training set is, in our experience, sometimes but not usually possible.
 
