@@ -32,7 +32,7 @@ def set_config(
     ----------
     use_templates : Whether templates are used
     max_msa_cluster : How many sequences to use in MSA
-    max_extra_msa : How many extra sequences to use? Unclear
+    max_extra_msa : How many extra sequences to include for summary stats
     max_recycles : Number of recycling iterations
     model_id : Which AF2 model to use
     n_struct_module_repeats : Number of passes through structure module
@@ -174,7 +174,7 @@ def predict_structure_from_templates(
     model_params : Which parameters to provide to AF2 model
     random_seed : Random seed
     max_msa_clusters : Number of sequences to use
-    max_extra_msa : ???
+    max_extra_msa : Number of extra seqs for summary stats
     max_recycles : Number of iterations through AF2
     n_struct_module_repeats : Number of passes through structural refinement
     move_prefix : Prefix for temporary files (deleted after fxn completion)
@@ -241,7 +241,7 @@ def predict_structure_no_templates(
     model_id : Which AF2 model to run (must be 1 or 2 for templates)
     random_seed : Random seed
     max_msa_clusters : Number of sequences to use
-    max_extra_msa : ???
+    max_extra_msa : Number of extra seqs for summary stats
     max_recycles : Number of iterations through AF2
     n_struct_module_repeats : Number of passes through structural refinement
 
