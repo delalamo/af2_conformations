@@ -12,7 +12,7 @@ We recommend sampling across several MSA depths. When MSAs are too shallow, the 
 
 ### How to use the code in this repository
 
-Before importing the code contained in the `scripts/` folder, the user needs to install the AlphaFold source code and download the parameters to a directory named `params/`. Additional Python modules that must be installed include [Numpy](https://numpy.org/) and [Logging](https://abseil.io/docs/python/guides/logging).
+Before importing the code contained in the `scripts/` folder, the user needs to install the AlphaFold source code and download the parameters to a directory named `params/`. Additional Python modules that must be installed include [Numpy](https://numpy.org/), [Requests](https://docs.python-requests.org/en/latest/), and [Logging](https://abseil.io/docs/python/guides/logging).
 
 The scripts can be imported and used out-of-the-box to fetch multiple sequence alignments and/or templates of interest:
 
