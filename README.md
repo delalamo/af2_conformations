@@ -82,15 +82,21 @@ If you find any other issues please let us know in the "issues" tab above.
 If the code in this repository has helped your scientific project, please consider citing our preprint:
 
 ```bibtex
-@article {delAlamo2021.11.22.469536,
-	author = {del Alamo, Diego and Sala, Davide and Mchaourab, Hassane S. and Meiler, Jens},
-	title = {Sampling the conformational landscapes of transporters and receptors with AlphaFold2},
-	elocation-id = {2021.11.22.469536},
-	year = {2021},
-	doi = {10.1101/2021.11.22.469536},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2021/11/22/2021.11.22.469536},
-	eprint = {https://www.biorxiv.org/content/early/2021/11/22/2021.11.22.469536.full.pdf},
-	journal = {bioRxiv}
+@article {10.7554/eLife.75751,
+article_type = {journal},
+title = {Sampling alternative conformational states of transporters and receptors with AlphaFold2},
+author = {del Alamo, Diego and Sala, Davide and Mchaourab, Hassane S and Meiler, Jens},
+editor = {Robertson, Janice L and Swartz, Kenton J and Robertson, Janice L},
+volume = 11,
+year = 2022,
+month = {mar},
+pub_date = {2022-03-03},
+pages = {e75751},
+citation = {eLife 2022;11:e75751},
+doi = {10.7554/eLife.75751},
+url = {https://doi.org/10.7554/eLife.75751},
+journal = {eLife},
+issn = {2050-084X},
+publisher = {eLife Sciences Publications, Ltd},
 }
 ```
