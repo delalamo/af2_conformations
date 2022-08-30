@@ -252,7 +252,7 @@ class MMSeqs2Runner:
 
         path = f"{ self.job }_env/templates_101"
         if os.path.isdir(path):
-            os.system(f"rm { path }")
+            os.system(f"rm -r { path }")
 
         # templates = {}
         logging.info("\t".join(("seq", "pdb", "cid", "evalue")))
@@ -284,7 +284,7 @@ class MMSeqs2Runner:
             else:
                 pdbs = ",".join(pdbs[: self.n_templates])
 
-            os.system(f"curl -v { self.t_url }/{ pdbs } |tar xzf - -C { path }/")
+            os.system(f"wget -q -O - { self.t_url }/{ pdbs } |tar xzf - -C { path }/")
 
             os.system(f"cp { path }/pdb70_a3m.ffindex { path }/pdb70_cs219.ffindex")
 
