@@ -82,7 +82,7 @@ def mk_template(seq: str, a3m_lines=str, path=str) -> dict:
 ###############################
 
 
-def setup_features(seq: str, a3m_lines: str, tfeatures_in: dict) -> dict:
+def setup_features(seq: str, a3m_lines: list, tfeatures_in: dict) -> dict:
 
     r"""Set up features for alphafold
 
