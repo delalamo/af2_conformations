@@ -178,3 +178,23 @@ def plddt_to_bfactor(filename: str, maxval: float = 100.0) -> NoReturn:
     pdbio = Bio.PDB.PDBIO()
     pdbio.set_structure(pdb)
     pdbio.save(filename)
+
+def pdb2str( pdbfile: str ) -> str:
+
+  r""" Converts PDB file to string
+
+  Credit to Sergey Ovchinnikov for writing this
+
+  Args:
+    pdbfile: String with PDB file to convert
+
+  Output:
+    String
+
+  """
+  lines = []
+  for line in open( pdbfile, "r" ):
+    if line[ :4 ] == "ATOM":
+      lines.append( line )
+  return "".join( lines )
+

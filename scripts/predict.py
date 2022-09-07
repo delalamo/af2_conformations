@@ -4,6 +4,7 @@ import numpy as np
 import random
 import sys
 
+import alphafold
 from alphafold.common import protein
 from alphafold.model import data
 from alphafold.model import config
@@ -12,7 +13,8 @@ from alphafold.model import model
 from typing import Any, List, Mapping, NoReturn
 
 from absl import logging
-
+import jax.numpy as jnp
+import jax
 
 def set_config(
     use_templates: bool,
@@ -280,6 +282,93 @@ def predict_structure_no_templates(
 
     return result
 
+def predict_structure_from_custom_template(
+    seq: str,
+    outname: str,
+    a3m_lines: str,
+    template_pdb: str,
+    model_id: int = -1,
+    model_params: int = -1,
+    random_seed: int = -1,
+    max_msa_clusters: int = -1,
+    max_extra_msa: int = -1,
+    max_recycles: int = 3,
+    n_struct_module_repeats: int = 8,
+  ):
+
+  f""" Predicts the structure.
+    Parameters
+    ----------
+    seq : Sequence
+    outname : Name of output PDB
+    a3m_lines : String of entire alignment
+    template_pdb : name of the PDB file with path in case it's not in the local folder
+    model_id : Which AF2 model to run (must be 1 or 2 for templates)
+    model_params : Which parameters to provide to AF2 model
+    random_seed : Random seed
+    max_msa_clusters : Number of sequences to use
+    max_extra_msa : Number of extra seqs for summary stats
+    max_recycles : Number of iterations through AF2
+    n_struct_module_repeats : Number of passes through structural refinement
+
+
+  Output:
+    None
+  """
+
+  if random_seed == -1:
+      random_seed = random.randrange(sys.maxsize)  
+
+  if model_id not in (1, 2):
+      model_id = random.randint(1, 2)
+
+  if model_params not in (1, 2):
+      model_params = random.randint(1, 2)          
+
+  print( "Prediction parameters:" )
+  print( f"\tTemplate: { template_pdb }" )
+  print( f"\tMaximum number of MSA clusters: { max_msa_clusters }" )
+  print( f"\tMaximum number of extra MSA clusters: { max_extra_msa }" )
+  print( f"\tMaximum number of recycling iterations: { max_recycles }" )
+
+  pdb = protein.from_pdb_string( util.pdb2str( template_pdb ) )
+
+  tfeatures_in = {
+    "template_aatype" : jax.nn.one_hot( pdb.aatype, 22 )[ : ][ None ],
+    "template_all_atom_masks" : pdb.atom_mask[ : ][ None ],
+    "template_all_atom_positions" : pdb.atom_positions[ :][ None ],
+    "template_domain_names" : np.asarray( [ "None" ] ) }
+
+  if random_seed == -1:
+      random_seed = random.randrange(sys.maxsize)
+
+  if model_id not in (1, 2):
+      model_id = random.randint(1, 2)
+
+  if model_params not in (1, 2):
+      model_params = random.randint(1, 2)
+
+  # Assemble the dictionary of input features
+  features_in = util.setup_features(
+      seq, a3m_lines, tfeatures_in)
+
+  # Run the models
+  model_runner = set_config(
+      True,
+      max_msa_clusters,
+      max_extra_msa,
+      max_recycles,
+      model_id,
+      n_struct_module_repeats,
+      len(features_in["msa"]),
+      model_params=model_params,
+  )
+
+  result = run_one_job(model_runner, features_in, random_seed, outname)
+
+  del model_runner
+
+  return result
 
 def to_pdb(
     outname, pred, plddts, res_idx  # type unknown but check?  # type unknown but check?
