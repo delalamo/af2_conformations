@@ -59,6 +59,8 @@ predict.predict_structure_from_templates( sequence, "out.pdb",
         max_recycles = 1, n_struct_module_repeats = 8 )
 ```
 
+To run a prediction with a custom PDB template the "predict_structure_from_custom_template" function can be used. The function takes a template_pdb parameter with the PDB file instead of template_path. Length of the PDB and sequence must match. 
+
 There is also functionality to introduce mutations (e.g. alanines) across the entire MSA to remove the evolutionary evidence for specific interactions (see [here](https://www.biorxiv.org/content/10.1101/2021.11.29.470469v1) and [here](https://twitter.com/sokrypton/status/1464748132852547591) on why you would want to do this). This can be achieved as follows:
 
 ```python
