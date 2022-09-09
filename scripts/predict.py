@@ -339,15 +339,6 @@ def predict_structure_from_custom_template(
     "template_all_atom_positions" : pdb.atom_positions[ :][ None ],
     "template_domain_names" : np.asarray( [ "None" ] ) }
 
-  if random_seed == -1:
-      random_seed = random.randrange(sys.maxsize)
-
-  if model_id not in (1, 2):
-      model_id = random.randint(1, 2)
-
-  if model_params not in (1, 2):
-      model_params = random.randint(1, 2)
-
   # Assemble the dictionary of input features
   features_in = util.setup_features(
       seq, a3m_lines, tfeatures_in)
