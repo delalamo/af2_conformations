@@ -1,3 +1,5 @@
+29 August 2023 - The colab notebooks in this repo are currently experiencing problems. I apologize and am looking for a fix. Thank you for your patience!
+
 # Prediction of alternative conformations using AlphaFold 2
 
 This repository accompanies the manuscript ["Sampling alternative conformational states of transporters and receptors with AlphaFold2"](https://elifesciences.org/articles/75751) by Diego del Alamo, Davide Sala, Hassane S. Mchaourab, and Jens Meiler. The code used to generate these models can be found in `scripts/` and was derived from the closely related repository [ColabFold](https://github.com/sokrypton/ColabFold/). This repository also includes the scripts used to plot the data, which can be found in `figures/`, as well as scripts to analyze data `analyses_scripts`. Finally, a Google Colab notebook is available for use in `notebooks/`.
